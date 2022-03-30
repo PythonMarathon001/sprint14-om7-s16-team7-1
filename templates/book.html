@@ -1,0 +1,11 @@
+{% extends 'index.html' %}
+{% block title %}Library - One - Book{% endblock %}
+{% block content %}
+    Library - Book<br />
+<h1>{{ book.name }}</h1>
+<p>{{ book.description }}</p>
+{% for author in book.authors.all %}
+    <h2>{{ author.patronimic }}</h2>
+    <p>{{ author.name }} {{ author.surname }}</p>
+{% endfor %}
+{% endblock %}
