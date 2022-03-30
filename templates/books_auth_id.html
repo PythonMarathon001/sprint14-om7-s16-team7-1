@@ -1,0 +1,11 @@
+{% extends 'index.html' %}
+{% block title %}Library - Books author id{% endblock %}
+{% block content %}
+    Library - Books author id<br />
+
+{% for book in books_author_id %}
+    <p>{{ book }}</p>
+{% endfor %}
+
+
+{% endblock %}

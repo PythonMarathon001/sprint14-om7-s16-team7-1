@@ -1,0 +1,10 @@
+{% extends 'index.html' %}
+{% block title %}Library - Book{% endblock %}
+{% block content %}
+    Library - Book<br />
+
+{% for b in all_books %}
+    <p>{{ b.name }} - book_ID: {{ b.pk }}</p>
+{% endfor %}
+
+{% endblock %}

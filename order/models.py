@@ -26,8 +26,8 @@ class Order(models.Model):
         :return: class, id
         """
         return f'{self.__class__.__name__}(id={self.id})'
-    def to_dict(self):
 
+    def to_dict(self):
         return {
             'id': self.id,
             'user': self.user,
