@@ -1,7 +1,6 @@
 {% extends 'index.html' %}
-{% block title %}Library - One - Book{% endblock %}
 {% block content %}
-    Library - Book<br />
+<h2>show information about a specific book (by id: {{ book.pk }})</h2>
 <h1>{{ book.name }}</h1>
 <p>{{ book.description }}</p>
 {% for author in book.authors.all %}

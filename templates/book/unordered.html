@@ -1,0 +1,9 @@
+{% extends 'index.html' %}
+{% block content %}
+<h2>show information about all unordered book</h2>
+{% for book in all_books %}
+    <p>{{ book }}</p>
+{% endfor %}
+
+
+{% endblock %}
