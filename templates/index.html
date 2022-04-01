@@ -2,12 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %} library - Main {% endblock %}</title>
+    <title>Library - {{ title }} </title>
 </head>
 <body>
-
+<h1><a href="{% url 'index' %}">Library</a></h1>
+<ul>
+    <li><a href="{% url 'books' %}">show information about all books in library</a></li>
+    <li><a href="/book/101">show information about a specific book (by id) -- not done</a></li>
+    <li><a href="{% url 'unordered' %}">show information about all unordered book</a></li>
+    <li>show information about book filtering by different criteria (by author, by part of name, etc.)</li>
+    <li>show all books given by specific user (by id)</li>
+    <li><a href="/book/author_id/102">show all books for specific author (by id) -- not done</a></li>
+    <li>show information about all books sorted by name (asc and desc order), sorted by count</li>
+    <li>show information about all orders sorted by date (created, plated at)</li>
+    <li>show information about users who does not hand over books on time</li>
+</ul>
+<hr />
 {% block content %}
-    Library - Main
+
 {% endblock %}
 
 </body>
