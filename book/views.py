@@ -9,19 +9,25 @@ from order.models import Order
 
 
 
+# def index(request):
+#     all_books = Book.objects.all()
+#     all_authors = Author.objects.all()
+#     lst_books = []
+#     for book in all_books:
+#         lst_books.append(Book.to_dict(book))
+#     for i in lst_books:
+#         tmp = []
+#         for k in i['authors']:
+#             for author in all_authors:
+#                 if author.pk == k:
+#                     tmp.append(f'{author.name} {author.surname}')
+#         i['authors'] = tmp
+#     title = "all books"
+#     return render(request, 'book/books.html', locals())
+
+
 def index(request):
     all_books = Book.objects.all()
-    all_authors = Author.objects.all()
-    lst_books = []
-    for book in all_books:
-        lst_books.append(Book.to_dict(book))
-    for i in lst_books:
-        tmp = []
-        for k in i['authors']:
-            for author in all_authors:
-                if author.pk == k:
-                    tmp.append(f'{author.name} {author.surname}')
-        i['authors'] = tmp
     title = "all books"
     return render(request, 'book/books.html', locals())
 
@@ -44,8 +50,11 @@ def unordered(request):
 
 def all_books_author_id(request, pk):
     books_author_id = list(Book.objects.all().filter(authors__id=pk))
+    author = Author.objects.filter(pk=pk)[0]
+    # author = books_author_id[0].
     context = {"books_author_id": books_author_id,
                "title": f"Author id: {pk}",
-               "id": f"{pk}"
+               "id": f"{pk}",
+               "author": author,
                }
     return render(request, 'book/books_auth_id.html', context)
