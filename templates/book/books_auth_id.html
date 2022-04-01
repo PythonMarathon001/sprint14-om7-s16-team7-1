@@ -2,9 +2,24 @@
 {% block content %}
 <h2>show all books for specific author (by id: {{ id }})</h2>
 
-{% for book in books_author_id %}
-    <p>{{ book }}</p>
-{% endfor %}
-
+<table>
+    <caption>
+        Автор: {{ author.name }} {{ author.patronymic }} {{ author.surname }}
+    </caption>
+    <tr>
+        <th>Book name</th>
+        <th>Description</th>
+    </tr>
+    {% for book in books_author_id %}
+        <tr>
+            <td>
+                {{ book.name }}
+            </td>
+            <td>
+                {{ book.description }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
 
 {% endblock %}

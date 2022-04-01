@@ -1,20 +1,33 @@
 {% extends 'index.html' %}
 {% block content %}
+
 <h2>show information about all books in library</h2>
-{% for book in lst_books %}
-<p>
-{{ book.name }} - {{ book.description }} - count: {{ book.count }} - Authors:
-        {% for author in book.authors %}
-            {{ author }}
-        {% endfor %}
-</p>
-{% endfor %}
 
+<!--<table>-->
+<!--    <tr><th>Book name</th><th>Description</th><th>Quantity</th><th>Authors</th></tr>-->
+<!--    {% for book in lst_books %}-->
+<!--        <tr><td>{{ book.name }}</td><td>{{ book.description }}</td><td>{{ book.count }}</td>-->
+<!--            {% for author in book.authors %}-->
+<!--                <td>{{ author }}</td>-->
+<!--            {% endfor %}-->
+<!--        </tr>-->
+<!--    {% endfor %}-->
+<!--</table>-->
 
-
-<!--{% for author in all_authors %}-->
-<!--    <p>{{ author }}</p>-->
-<!--&lt;!&ndash;    <p>{{ book.name }} {{ book.description }} {{ book.count }} {{ book.authors }}</p>&ndash;&gt;-->
-<!--{% endfor %}-->
+<table>
+    <tr><th>Book name</th>
+        <th>Description</th>
+        <th>Quantity</th>
+        <th>Authors</th></tr>
+    {% for book in all_books %}
+        <tr><td>{{ book.name }}</td>
+            <td>{{ book.description }}</td>
+            <td>{{ book.count }}</td>
+            {% for author in book.authors.all %}
+                <td>{{ author.name }} {{ author.surname }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
 
 {% endblock %}
