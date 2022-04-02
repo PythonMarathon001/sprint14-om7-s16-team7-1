@@ -17,7 +17,21 @@
         {% endfor %})
     </li>
     <li><a href="{% url 'unordered' %}">show information about all unordered book</a></li>
-    <li>show information about book filtering by different criteria (by author, by part of name, etc.)</li>
+    <li>show information about book filtering by different criteria<br />
+        <span style="margin-left: 50px;">by author: {% for author in all_authors %}
+                      <a href="{% url 'filter' %}?var={{ author.surname }}">
+                          &nbsp;{{ author.surname }}&nbsp;</a>
+                   {% endfor %}<br />
+        </span>
+        <span style="margin-left: 50px;">by part of name, patronimic:
+            <a href="{% url 'filter' %}?var=adimi">&nbsp;adimi&nbsp;</a>
+            <a href="{% url 'filter' %}?var=Dro">&nbsp;Dro&nbsp;</a>
+            <a href="{% url 'filter' %}?var=Nik">&nbsp;Nik&nbsp;</a>
+            <a href="{% url 'filter' %}?var=Pro">&nbsp;Pro&nbsp;</a>
+            <a href="{% url 'filter' %}?var=Alexandrovich">&nbsp;Alexandrovich&nbsp;</a>
+            <a href="{% url 'filter' %}?var=Anatolievich">&nbsp;Anatolievich&nbsp;</a>
+        </span>
+    </li>
     <li>show all books given by specific user (by id)</li>
 
     <li>show all books for specific author (by id:

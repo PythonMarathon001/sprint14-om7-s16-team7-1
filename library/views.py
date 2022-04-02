@@ -1,5 +1,4 @@
 from django.shortcuts import render
-# from django.template import RequestContext
 
 from author.models import Author
 from book.models import Book
@@ -15,6 +14,7 @@ def custom_context(request):
         authors_id.append(author.pk)
     return {"books_id": books_id,
             "authors_id": authors_id,
+            "all_authors": all_authors,
             }
 
 
@@ -22,9 +22,3 @@ def index(request):
     context = {"title": "Main",
                }
     return render(request, 'index.html', context)
-# def index(request):
-#     context = {"title": "Main",
-#                }
-#     return render_to_response(
-#         'index.html', context, context_instance=RequestContext(
-#             request, processors=[custom_context]))
