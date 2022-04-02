@@ -1,4 +1,3 @@
-import datetime
 from django.shortcuts import render
 from .models import Book
 
@@ -6,24 +5,6 @@ from authentication.models import CustomUser
 from author.models import Author
 from book.models import Book
 from order.models import Order
-
-
-
-# def index(request):
-#     all_books = Book.objects.all()
-#     all_authors = Author.objects.all()
-#     lst_books = []
-#     for book in all_books:
-#         lst_books.append(Book.to_dict(book))
-#     for i in lst_books:
-#         tmp = []
-#         for k in i['authors']:
-#             for author in all_authors:
-#                 if author.pk == k:
-#                     tmp.append(f'{author.name} {author.surname}')
-#         i['authors'] = tmp
-#     title = "all books"
-#     return render(request, 'book/books.html', locals())
 
 
 def index(request):
@@ -51,10 +32,27 @@ def unordered(request):
 def all_books_author_id(request, pk):
     books_author_id = list(Book.objects.all().filter(authors__id=pk))
     author = Author.objects.filter(pk=pk)[0]
-    # author = books_author_id[0].
     context = {"books_author_id": books_author_id,
                "title": f"Author id: {pk}",
                "id": f"{pk}",
                "author": author,
                }
     return render(request, 'book/books_auth_id.html', context)
+
+
+def book_sorted(request):
+    sorting = request.GET.get('sorting')
+    param = request.GET.get('param')
+
+    if sorting == "desc":
+        all_books = Book.objects.all().order_by(param).reverse()
+    else:
+        all_books = Book.objects.all().order_by(param)
+
+    context = {
+        "title": f"Order by {sorting}",
+        "all_books": all_books,
+        "header_of_page": f"show information about all books sorted by {param} "
+                          f"({sorting})"
+    }
+    return render(request, 'book/sort.html', context)
