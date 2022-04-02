@@ -1,15 +1,17 @@
 {% extends 'index.html' %}
 {% block content %}
 
-<h2>show information about all books in library</h2>
+<h2>{{ header_of_page }}</h2>
 
 <table>
-    <tr><th>Book name</th>
+    <tr><th>ID</th>
+        <th>Book name</th>
         <th>Description</th>
         <th>Quantity</th>
         <th>Authors</th></tr>
     {% for book in all_books %}
         <tr>
+            <td>{{ book.id }}</td>
             <td>{{ book.name }}</td>
             <td>{{ book.description }}</td>
             <td>{{ book.count }}</td>

@@ -26,7 +26,14 @@
         {% endfor %})
     </li>
 
-    <li>show information about all books sorted by name (asc and desc order), sorted by count</li>
+    <li>show information about all books sorted by name
+            (<a href="{% url 'sorted' %}?sorting=asc&param=name">asc</a> and
+             <a href="{% url 'sorted' %}?sorting=desc&param=name">desc</a>),
+        by order (asc and desc),
+        sorted by count
+            (<a href="{% url 'sorted' %}?sorting=asc&param=count">asc</a> and
+             <a href="{% url 'sorted' %}?sorting=desc&param=count">desc</a>),
+    </li>
     <li>show information about all orders sorted by date (created, plated at)</li>
     <li>show information about users who does not hand over books on time</li>
 </ul>
