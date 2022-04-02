@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Book
+from django.db.models import Q
 
 from authentication.models import CustomUser
 from author.models import Author
@@ -56,3 +56,17 @@ def book_sorted(request):
                           f"({sorting})"
     }
     return render(request, 'book/sort.html', context)
+
+from django.db.models import Q
+def book_filter(request):
+    var = request.GET.get('var')
+    author_id = Author.objects.filter(Q(surname__contains=var) |
+                                      Q(name__contains=var) |
+                                      Q(patronymic__contains=var))[0].id
+    all_books = Book.objects.filter(authors__id=author_id)
+
+    context = {"title": f"filter by: {var}",
+               "var": var,
+               "all_books": all_books,
+    }
+    return render(request, 'book/filter.html', context)
