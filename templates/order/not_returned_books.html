@@ -1,0 +1,31 @@
+{% extends 'order/index.html' %}
+{% block title %} Users who does not hand over books {% endblock %}
+{% block content %}
+information about users who does not hand over books on time <br/>
+
+<table>
+    <tr>
+        <th>Fisrt name</th>
+        <th>Last name</th>
+        <th>Email</th>
+        <th>Book name</th>
+    </tr>
+    {% for order in not_returned_books %}
+    <tr>
+        <td>
+            {{order.user.first_name}}
+        </td>
+        <td>
+            {{order.user.last_name}}
+        </td>
+        <td>
+            {{order.user.email}}
+        </td>
+        <td>
+            {{order.book.name}}
+        </td>
+    </tr>
+
+    {% endfor %}
+</table>
+{% endblock %}

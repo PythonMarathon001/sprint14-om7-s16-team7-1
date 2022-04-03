@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<h2>show information about a specific book (by id: {{ book.pk }})</h2>
+
+<table>
+    <tr><th>Book name</th>
+        <th>Description</th>
+        <th>Authors</th>
+    </tr>
+    <tr><td>{{ book.name }}</td>
+        <td>{{ book.description }}</td>
+        <td>
+            {% for author in book.authors.all %}
+                {{ author.name }} {{ author.patronymic }} {{ author.surname }}
+            {% endfor %}
+        </td>
+    </tr>
+</table>
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'index.html' %}
+{% block content %}
+<h2>show information about all unordered book</h2>
+
+<table>
+    <tr><th>Book name</th>
+        <th>Description</th>
+        <th>Author</th></tr>
+    {% for book in all_books %}
+        <tr><td>{{ book.name }}</td>
+            <td>{{ book.description }}</td>
+            {% for author in book.authors.all %}
+                <td>{{ author.name }} {{ author.patronymic }} {{ author.surname }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

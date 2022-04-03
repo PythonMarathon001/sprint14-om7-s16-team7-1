@@ -1,0 +1,24 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<h2>show information about all books in library</h2>
+
+<table>
+    <tr><th>Book name</th>
+        <th>Description</th>
+        <th>Quantity</th>
+        <th>Authors</th></tr>
+    {% for book in all_books %}
+        <tr>
+            <td>{{ book.name }}</td>
+            <td>{{ book.description }}</td>
+            <td>{{ book.count }}</td>
+                {% for author in book.authors.all %}
+            <td>{{ author.name }} {{ author.surname }}</td>
+                {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
+`
