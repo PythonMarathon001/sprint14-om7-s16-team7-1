@@ -3,11 +3,29 @@
 {% block content %}
 information about users who does not hand over books on time <br/>
 
-<br>
+<table>
+    <tr>
+        <th>Fisrt name</th>
+        <th>Last name</th>
+        <th>Email</th>
+        <th>Book name</th>
+    </tr>
     {% for order in not_returned_books %}
-
-        <h5>{{order.user}}</h5>
+    <tr>
+        <td>
+            {{order.user.first_name}}
+        </td>
+        <td>
+            {{order.user.last_name}}
+        </td>
+        <td>
+            {{order.user.email}}
+        </td>
+        <td>
+            {{order.book.name}}
+        </td>
+    </tr>
 
     {% endfor %}
-
+</table>
 {% endblock %}
