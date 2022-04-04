@@ -7,17 +7,15 @@
         Автор: {{ author.name }} {{ author.patronymic }} {{ author.surname }}
     </caption>
     <tr>
+        <th>ID</th>
         <th>Book name</th>
         <th>Description</th>
     </tr>
     {% for book in books_author_id %}
         <tr>
-            <td>
-                {{ book.name }}
-            </td>
-            <td>
-                {{ book.description }}
-            </td>
+            <td>{{ book.pk }}</td>
+            <td>{{ book.name }}</td>
+            <td>{{ book.description }}</td>
         </tr>
     {% endfor %}
 </table>

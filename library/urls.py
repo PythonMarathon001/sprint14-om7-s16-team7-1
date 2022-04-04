@@ -24,4 +24,3 @@ urlpatterns = [
     path('book/', include('book.urls'), name='books'),
     path('admin/', admin.site.urls),
 ]
-

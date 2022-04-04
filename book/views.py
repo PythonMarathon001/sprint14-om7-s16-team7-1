@@ -1,7 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
 from django.db.models import Q
 
-from authentication.models import CustomUser
 from author.models import Author
 from book.models import Book
 from order.models import Order
@@ -43,30 +42,44 @@ def all_books_author_id(request, pk):
 def book_sorted(request):
     sorting = request.GET.get('sorting')
     param = request.GET.get('param')
-
-    if sorting == "desc":
-        all_books = Book.objects.all().order_by(param).reverse()
-    else:
-        all_books = Book.objects.all().order_by(param)
-
     context = {
-        "title": f"Order by {sorting}",
-        "all_books": all_books,
-        "header_of_page": f"show information about all books sorted by {param} "
-                          f"({sorting})"
+        "title": f"Order by {param}({sorting})",
+        "header_of_page": f"show information about all books "
+                          f"sorted by {param} ({sorting})",
     }
-    return render(request, 'book/sort.html', context)
 
-from django.db.models import Q
+    if param != 'order':
+        if sorting == "desc":
+            all_books = Book.objects.all().order_by(param).reverse()
+        else:
+            all_books = Book.objects.all().order_by(param)
+        context['all_books'] = all_books
+        return render(request, 'book/sort.html', context)
+    else:
+        if sorting == "desc":
+            orders = Order.objects.all().order_by('pk').reverse()
+        else:
+            orders = Order.objects.all().order_by('pk')
+        context['all_books'] = orders
+        return render(request, 'book/sort_order.html', context)
+
+
 def book_filter(request):
     var = request.GET.get('var')
-    author_id = Author.objects.filter(Q(surname__contains=var) |
-                                      Q(name__contains=var) |
-                                      Q(patronymic__contains=var))[0].id
-    all_books = Book.objects.filter(authors__id=author_id)
+    try:
+        author_id = Author.objects.filter(Q(surname__contains=var) |
+                                          Q(name__contains=var) |
+                                          Q(patronymic__contains=var))[0].id
+        all_books = Book.objects.filter(authors__id=author_id)
+        context = {"title": f"filter by: {var}",
+                   "var": var,
+                   "all_books": all_books,
+                   }
+        return render(request, 'book/filter.html', context)
+    except IndexError:
+        return redirect(reverse('no_filter'), {})
 
-    context = {"title": f"filter by: {var}",
-               "var": var,
-               "all_books": all_books,
-    }
-    return render(request, 'book/filter.html', context)
+
+def no_filter(request):
+    title = f"No books matching your search"
+    return render(request, 'book/no_filter.html', locals())

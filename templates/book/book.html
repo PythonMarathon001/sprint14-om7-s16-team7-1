@@ -4,11 +4,15 @@
 <h2>show information about a specific book (by id: {{ book.pk }})</h2>
 
 <table>
-    <tr><th>Book name</th>
+    <tr>
+        <th>ID</th>
+        <th>Book name</th>
         <th>Description</th>
         <th>Authors</th>
     </tr>
-    <tr><td>{{ book.name }}</td>
+    <tr>
+        <td>{{ book.pk }}</td>
+        <td>{{ book.name }}</td>
         <td>{{ book.description }}</td>
         <td>
             {% for author in book.authors.all %}

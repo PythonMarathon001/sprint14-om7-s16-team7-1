@@ -4,21 +4,23 @@
 <h2>show information about book filtering by different criteria, filter by: {{ var }}</h2>
 
 <table>
-    <tr><th>Book name</th>
+    <tr>
+        <th>ID</th>
+        <th>Book name</th>
         <th>Description</th>
         <th>Quantity</th>
         <th>Authors</th></tr>
     {% for book in all_books %}
         <tr>
+            <td>{{ book.pk }}</td>
             <td>{{ book.name }}</td>
             <td>{{ book.description }}</td>
             <td>{{ book.count }}</td>
                 {% for author in book.authors.all %}
-            <td>{{ author.name }} {{ author.surname }}</td>
+            <td>{{ author.name }} {{ author.patronymic }} {{ author.surname }}</td>
                 {% endfor %}
         </tr>
     {% endfor %}
 </table>
 
 {% endblock %}
-`

@@ -1,7 +1,7 @@
+from datetime import datetime
 from django.db import models, DataError, IntegrityError
 
 from authentication.models import CustomUser
-from author.models import Author
 from book.models import Book
 import datetime
 
@@ -75,6 +75,14 @@ class Order(models.Model):
     @staticmethod
     def get_not_returned_books():
         orders = [order for order in Order.get_all() if order.end_at is None]
+        return orders
+
+    @staticmethod
+    def not_returned_on_time():
+        orders = [order for order in Order.get_all() if
+                  (order.end_at and order.end_at > order.plated_end_at) or
+                  (not order.end_at and
+                   order.plated_end_at < datetime.datetime.now(order.plated_end_at.tzinfo))]
         return orders
 
     @staticmethod

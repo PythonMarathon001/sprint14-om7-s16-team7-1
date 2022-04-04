@@ -1,36 +1,30 @@
 {% extends 'index.html' %}
 {% block content %}
 
-<h2>show information about all orders sorted by date ({{ param }},  {{ sorting }})</h2>
+<h2>show all books given by specific user by id: {{ user_id }}</h2>
 
 <table>
+    <caption>{{ user_name.last_name }}
+             {{ user_name.first_name }}
+             {{ user_name.middle_name }}
+    </caption>
     <tr>
-        <th>ID</th>
+        <th>Order ID</th>
         <th>Book ID</th>
         <th>Book name</th>
         <th>Authors</th>
-        <th>User ID</th>
-        <th>User</th>
-        <th>Created at</th>
+        <th>Order created</th>
         <th>Actual return date</th>
         <th>Return date until</th>
     </tr>
     {% for order in order_list %}
     <tr>
         <td>{{order.id}}</td>
-        <td>{{order.book.pk}}</td>
+        <td>{{order.book.id}}</td>
         <td>{{order.book.name}}</td>
         <td>{% for author in order.book.authors.all %}
-                {{ author.surname }}
-                {{ author.name }}
-                {{ author.patronymic }}
+            {{author.surname}} {{author.name}} {{author.patronymic}}
             {% endfor %}
-        </td>
-        <td>{{ order.user.id }}</td>
-        <td>
-            {{ order.user.last_name}}
-            {{ order.user.first_name}}
-            {{ order.user.middle_name}}
         </td>
         <td>{{order.created_at}}</td>
         <td>{{order.end_at}}</td>

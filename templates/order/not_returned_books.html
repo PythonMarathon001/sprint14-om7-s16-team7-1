@@ -1,31 +1,40 @@
-{% extends 'order/index.html' %}
-{% block title %} Users who does not hand over books {% endblock %}
+{% extends 'index.html' %}
 {% block content %}
-information about users who does not hand over books on time <br/>
+<h2>show information about users who does not hand over books on time</h2>
 
 <table>
     <tr>
-        <th>Fisrt name</th>
-        <th>Last name</th>
-        <th>Email</th>
+        <th>order ID</th>
+        <th>user ID</th>
+        <th>User</th>
         <th>Book name</th>
+        <th>Authors</th>
+        <th>Actual return date</th>
+        <th>Return date until</th>
     </tr>
     {% for order in not_returned_books %}
-    <tr>
-        <td>
-            {{order.user.first_name}}
-        </td>
-        <td>
-            {{order.user.last_name}}
-        </td>
-        <td>
-            {{order.user.email}}
-        </td>
-        <td>
-            {{order.book.name}}
-        </td>
-    </tr>
-
+        <tr>
+            <td>{{  order.id }}</td>
+            <td>{{  order.user.id }}</td>
+            <td>{{  order.user.first_name }}
+                {{  order.user.middle_name }}
+                {{  order.user.last_name }}</td>
+            <td>{{  order.book.name }}</td>
+            <td>{% for author in order.book.authors.all %}
+                    {{ author.name }} {{ author.surname }}
+                {% endfor %}
+            </td>
+            <td>{{  order.end_at }}</td>
+            <td>{{  order.plated_end_at }}</td>
+        </tr>
     {% endfor %}
+
 </table>
+
+<!--  user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)-->
+<!--    book = models.ForeignKey(Book, on_delete=models.CASCADE)-->
+<!--    created_at = models.DateTimeField(auto_now_add=True, editable=False)-->
+<!--    end_at = models.DateTimeField(null=True)-->
+<!--    plated_end_at = models.DateTimeField()-->
+
 {% endblock %}
