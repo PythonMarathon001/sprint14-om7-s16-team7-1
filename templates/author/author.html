@@ -1,0 +1,20 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<h2>Author id: {{ author.pk }}</h2>
+
+{% if delete %}
+    {{ delete }}
+{% elif saved %}
+    {{ saved }}
+{% elif form_not_changed %}
+    {{ form_not_changed }}
+{% elif not form_not_changed %}
+    <form action="{% url 'edit_author' author.pk %}" method="POST">
+        {% csrf_token %}
+            {{ form }}
+        <button type="Submit" name="save">Save</button>
+        <button type="Submit" name="delete">Delete</button>
+    </form>
+{% endif %}
+{% endblock %}

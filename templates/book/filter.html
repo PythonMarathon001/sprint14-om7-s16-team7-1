@@ -1,8 +1,18 @@
 {% extends 'index.html' %}
 {% block content %}
 
-<h2>show information about book filtering by different criteria, filter by: {{ var }}</h2>
+<h2>show information about book filtering by different criteria, filter by: </h2>
+            <form action="{% url 'view_search' %}" method="POST">
+            {% csrf_token %}
+                {{ form_ }}
+            </form>
 
+{% if no_match %}
+<br />
+    "{{word_search}}"  {{ no_match }}
+{% endif %}
+
+{% if all_books %}
 <table>
     <tr>
         <th>ID</th>
@@ -22,5 +32,6 @@
         </tr>
     {% endfor %}
 </table>
+{% endif %}
 
 {% endblock %}

@@ -17,21 +17,10 @@
         {% endfor %})
     </li>
     <li><a href="{% url 'unordered' %}">show information about all unordered book</a></li>
-    <li>show information about book filtering by different criteria<br />
-        <span style="margin-left: 50px;">by author: {% for author in all_authors %}
-                      <a href="{% url 'filter' %}?var={{ author.surname }}">
-                          &nbsp;{{ author.surname }}&nbsp;</a>
-                   {% endfor %}<br />
-        </span>
-        <span style="margin-left: 50px;">by part of name, patronimic:
-            <a href="{% url 'filter' %}?var=Лутц">&nbsp;Лутц&nbsp;</a>
-            <a href="{% url 'filter' %}?var=адим">&nbsp;адим&nbsp;</a>
-            <a href="{% url 'filter' %}?var=охор">&nbsp;охор&nbsp;</a>
-            <a href="{% url 'filter' %}?var=Александрович">&nbsp;Александрович&nbsp;</a>
-            <a href="{% url 'filter' %}?var=ола">&nbsp;ола&nbsp;</a>
-            <a href="{% url 'filter' %}?var=Анатолиевич">&nbsp;Анатолиевич&nbsp;</a>
-        </span>
+    <li><a href="{% url 'view_search' %}">show information about book filtering by
+        different criteria: by part of author name, surname, patronimic</a><br />
     </li>
+
     <li>show all books given by specific user (by id:
         {% for user_id in users_id %}
             <a href="/order/user_id/{{ user_id }}">&nbsp;{{ user_id }}&nbsp;</a>
@@ -62,6 +51,7 @@
            <a href="{% url 'order_list' %}?sorting=desc&param=plated_end_at">desc</a>
         )</li>
     <li><a href="{% url 'not_returned_books' %}">show information about users who does not hand over books on time</a></li>
+    <li><a href="{% url 'show_all_authors' %}">show information about users</a></li>
 </ul>
 {% block content %}
 
