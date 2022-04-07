@@ -1,13 +1,11 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, reverse
 from django.db.models import Q
-from . import forms
-import urllib.parse
 
 from author.models import Author
 from book.models import Book
 from order.models import Order
-from .forms import SearchForm
+from .forms import SearchForm, BookForm
 
 
 def index(request):
@@ -68,36 +66,6 @@ def book_sorted(request):
         return render(request, 'book/sort_order.html', context)
 
 
-# def book_filter(request):
-#     if request.method == 'POST':
-#         form_ = SearchForm(request.POST or None)
-#         if form_.is_valid():
-#             # form_data = str(request.POST["search"])
-#             form_data = form_.cleaned_data.get("search")
-#             # out = urllib.parse.unquote_plus(form_data)
-#             # return redirect(f"http://127.0.0.1:8000/book/filter/?search={out}")
-#             # return HttpResponseRedirect(f"http://127.0.0.1:8000/book/filter/?search={out}", {"out":out})
-#             # return redirect(f"?search={out}")
-#         # var = urllib.parse.unquote_plus(request.GET.get('search'))
-#         # var = str(request.GET["search"])
-#         # idsearch = request.GET
-#         # return render(request, 'book/filter.html', {"context":var})
-#         # return redirect(reverse('book/filter.html'), {{"context":var}})
-#             try:
-#                 author_id = Author.objects.filter(Q(surname__contains=form_data) |
-#                                                   Q(name__contains=form_data) |
-#                                                   Q(patronymic__contains=form_data))[0].id
-#                 all_books = Book.objects.filter(authors__id=author_id)
-#                 context = {"title": f"filter by: {form_data}",
-#                            "var": form_data,
-#                            "all_books": all_books,
-#                            }
-#                 return render(request, 'book/filter.html', context)
-#                 # return redirect('book/filter.html', context)
-#             except IndexError:
-#                 return redirect(reverse('no_filter'), {"var": form_data})
-#
-# from django.db.models.functions import Upper
 def view_search(request):
     context = {}
     if request.method == 'POST':
@@ -124,3 +92,41 @@ def view_search(request):
 def no_filter(request):
     title = f"No books matching your search"
     return render(request, 'book/no_filter.html', locals())
+
+
+def edit_book(request, pk):
+    book = Book.get_by_id(pk)
+    context = {"book": book,
+               "title": f"id:{pk}"
+               }
+    if request.method == "POST":
+        if "delete" in request.POST:
+            book.delete()
+            context["delete"] = "Book was deleted"
+        if "save" in request.POST:
+            form_author = BookForm(request.POST, instance=book)
+            if form_author.is_valid():
+                if form_author.has_changed():
+                    form_author.save()
+                    context["saved"] = "changes was saved"
+                else:
+                    context["form_not_changed"] = "form not changed"
+    else:
+        context["form"] = BookForm(instance=book)
+    return render(request, 'book/book_edit.html', context)
+
+
+def add_book(request):
+    context = {"title": "create book"
+               }
+    if request.method == "POST":
+        form_book = BookForm(request.POST)
+        if form_book.is_valid():
+            if form_book.has_changed():
+                form_book.save()
+                context["create"] = "book was created"
+            else:
+                context["form_not_changed"] = "book wasn't created"
+    else:
+        context["form"] = BookForm()
+    return render(request, 'book/add_book.html', context)

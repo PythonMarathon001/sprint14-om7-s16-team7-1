@@ -3,13 +3,17 @@
 
 <h2>show information about all books in library</h2>
 
+<a href="{% url 'add_book' %}">+ Add book</a>
+
 <table>
     <tr>
         <th>ID</th>
         <th>Book name</th>
         <th>Description</th>
         <th>Quantity</th>
-        <th>Authors</th></tr>
+        <th>Authors</th>
+        <th></th>
+    </tr>
     {% for book in all_books %}
         <tr>
             <td>{{ book.pk }}</td>
@@ -19,6 +23,7 @@
                 {% for author in book.authors.all %}
             <td>{{ author.name }} {{ author.surname }}</td>
                 {% endfor %}
+            <td><a href="{% url 'edit_book' book.pk %}">edit</a></td>
         </tr>
     {% endfor %}
 </table>
