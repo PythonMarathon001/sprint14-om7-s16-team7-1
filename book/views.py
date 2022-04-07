@@ -1,9 +1,13 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, reverse
 from django.db.models import Q
+from . import forms
+import urllib.parse
 
 from author.models import Author
 from book.models import Book
 from order.models import Order
+from .forms import SearchForm
 
 
 def index(request):
@@ -64,20 +68,57 @@ def book_sorted(request):
         return render(request, 'book/sort_order.html', context)
 
 
-def book_filter(request):
-    var = request.GET.get('var')
-    try:
-        author_id = Author.objects.filter(Q(surname__contains=var) |
-                                          Q(name__contains=var) |
-                                          Q(patronymic__contains=var))[0].id
-        all_books = Book.objects.filter(authors__id=author_id)
-        context = {"title": f"filter by: {var}",
-                   "var": var,
-                   "all_books": all_books,
-                   }
-        return render(request, 'book/filter.html', context)
-    except IndexError:
-        return redirect(reverse('no_filter'), {})
+# def book_filter(request):
+#     if request.method == 'POST':
+#         form_ = SearchForm(request.POST or None)
+#         if form_.is_valid():
+#             # form_data = str(request.POST["search"])
+#             form_data = form_.cleaned_data.get("search")
+#             # out = urllib.parse.unquote_plus(form_data)
+#             # return redirect(f"http://127.0.0.1:8000/book/filter/?search={out}")
+#             # return HttpResponseRedirect(f"http://127.0.0.1:8000/book/filter/?search={out}", {"out":out})
+#             # return redirect(f"?search={out}")
+#         # var = urllib.parse.unquote_plus(request.GET.get('search'))
+#         # var = str(request.GET["search"])
+#         # idsearch = request.GET
+#         # return render(request, 'book/filter.html', {"context":var})
+#         # return redirect(reverse('book/filter.html'), {{"context":var}})
+#             try:
+#                 author_id = Author.objects.filter(Q(surname__contains=form_data) |
+#                                                   Q(name__contains=form_data) |
+#                                                   Q(patronymic__contains=form_data))[0].id
+#                 all_books = Book.objects.filter(authors__id=author_id)
+#                 context = {"title": f"filter by: {form_data}",
+#                            "var": form_data,
+#                            "all_books": all_books,
+#                            }
+#                 return render(request, 'book/filter.html', context)
+#                 # return redirect('book/filter.html', context)
+#             except IndexError:
+#                 return redirect(reverse('no_filter'), {"var": form_data})
+#
+# from django.db.models.functions import Upper
+def view_search(request):
+    context = {}
+    if request.method == 'POST':
+        form_ = SearchForm(request.POST)
+        if form_.is_valid():
+            word_search = str(form_.cleaned_data['search'])
+            context["form_"] = form_
+            context["word_search"] = word_search
+            try:
+                author_id = Author.objects.filter(Q(surname__icontains=word_search) |
+                                                  Q(name__icontains=word_search) |
+                                                  Q(patronymic__icontains=word_search))[0].id
+                all_books = Book.objects.filter(authors__id=author_id)
+                context["title"] = f"filter by: {word_search}"
+                context["all_books"] = all_books
+                context["table"] = 1
+            except IndexError:
+                context["no_match"] = "no match!"
+    else:
+        context["form_"] = SearchForm()
+    return render(request, 'book/filter.html', context)
 
 
 def no_filter(request):

@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<h2>show information about all authors in library</h2>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Patronymic</th>
+        <th></th>
+    </tr>
+    {% for a in all_auth %}
+        <tr>
+            <td>{{ a.pk }}</td>
+            <td>{{ a.name }}</td>
+            <td>{{ a.surname }}</td>
+            <td>{{ a.patronymic }}</td>
+            <td><a href="{% url 'edit_author' a.pk %}">edit</a></td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
