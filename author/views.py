@@ -34,3 +34,19 @@ def edit_author(request, pk):
     else:
         context["form"] = AuthorForm(instance=author)
     return render(request, 'author/author.html', context)
+
+
+def add_author(request):
+    context = {"title": "create author"
+               }
+    if request.method == "POST":
+        form_author = AuthorForm(request.POST)
+        if form_author.is_valid():
+            if form_author.has_changed():
+                form_author.save()
+                context["create"] = "author was created"
+            else:
+                context["form_not_changed"] = "author wasn't created"
+    else:
+        context["form"] = AuthorForm()
+    return render(request, 'author/add_author.html', context)

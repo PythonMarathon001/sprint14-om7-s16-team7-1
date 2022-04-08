@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<h2>{{ title }}</h2>
+
+{% if create %}
+    {{ create }}
+{% elif form_not_changed %}
+    {{ form_not_changed }}
+{% elif not form_not_changed %}
+    <form action="{% url 'add_order' %}" method="POST">
+        {% csrf_token %}
+        <style>select {width:400px;}</style>
+            <p><label for="id_user">user:</label>{{ form.user }}</p>
+            <p><label for="id_book">book:</label>{{ form.book }}</p>
+            <p><label for="id_plated_end_at">Planned return (%Y-%m-d %H:%M:S):</label>{{ form.plated_end_at }}</p>
+        <button type="Submit" name="save">Save</button>
+    </form>
+
+{% endif %}
+{% endblock %}

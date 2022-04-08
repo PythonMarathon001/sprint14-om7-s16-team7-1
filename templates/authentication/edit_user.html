@@ -1,0 +1,20 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<h2>User id: {{ user.pk }}</h2>
+
+{% if delete %}
+    {{ delete }}
+{% elif saved %}
+    {{ saved }}
+{% elif form_not_changed %}
+    {{ form_not_changed }}
+{% elif not form_not_changed %}
+    <form action="{% url 'edit_user' user.pk %}" method="POST">
+        {% csrf_token %}
+            {{ form.as_p }}
+        <button type="Submit" name="save">Save</button>
+        <button type="Submit" name="delete">Delete</button>
+    </form>
+{% endif %}
+{% endblock %}

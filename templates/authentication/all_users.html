@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<h2>show information about all users in library</h2>
+
+<a href="{% url 'add_user' %}">+ Add user</a>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Middle name</th>
+        <th>Surname</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Is active</th>
+        <th></th>
+    </tr>
+    {% for a in all_users %}
+        <tr>
+            <td>{{ a.pk }}</td>
+            <td>{{ a.first_name }}</td>
+            <td>{{ a.middle_name }}</td>
+            <td>{{ a.last_name }}</td>
+            <td>{{ a.email }}</td>
+            <td>{{ a.role }}</td>
+            <td>{{ a.is_active }}</td>
+            <td><a href="{% url 'edit_user' a.pk %}">edit</a></td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
