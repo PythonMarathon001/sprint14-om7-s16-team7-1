@@ -2,8 +2,6 @@ from django.shortcuts import render
 from .models import Author
 from .forms import AuthorForm
 
-# Create your views here.
-
 
 def show_authors(request):
     all_auth = Author.objects.all()
