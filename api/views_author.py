@@ -1,9 +1,7 @@
-from rest_framework import generics, status
+from rest_framework import status
 from rest_framework.response import Response
-from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
-
 
 from author.models import Author
 from .serializer import AuthorSerializer
@@ -25,14 +23,14 @@ class ApiAuthors(APIView):
 
 class ApiAuthorPK(APIView):
     def get(self, request, pk):
-        author = Author.objects.get(pk=pk)
+        author = get_object_or_404(Author, pk=pk)
         serializer = AuthorSerializer(author)
         return Response(serializer.data)
 
     def delete(self, request, pk):
         if Author.delete_by_id(pk):
             return Response(status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
     def patch(self, request, pk):
         author = Author.objects.get(pk=pk)
@@ -40,5 +38,5 @@ class ApiAuthorPK(APIView):
         serializer = AuthorSerializer(instance=author, data=data, partial=True)
         if serializer.is_valid():
             author = serializer.save()
-            return Response(f"updated {author}", status=status.HTTP_200_OK)
+            return Response(f"Successful updated: {author}", status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
